@@ -10,6 +10,7 @@ class ChatsController < ApplicationController
   # GET /chats/1
   # GET /chats/1.json
   def show
+    @chat=Chat.includes(:messages).find_by(id: params[:id])
   end
 
   # GET /chats/new
@@ -22,20 +23,17 @@ class ChatsController < ApplicationController
   end
 
   # POST /chats
-  # POST /chats.json
   def create
-    @chat = Chat.new(chat_params)
-
-    respond_to do |format|
-      if @chat.save
-        format.html { redirect_to @chat, notice: 'Chat was successfully created.' }
-        format.json { render :show, status: :created, location: @chat }
-      else
-        format.html { render :new }
-        format.json { render json: @chat.errors, status: :unprocessable_entity }
-      end
+    @chat_room = current_user.chats.build(chat_params)
+    if @chat.save
+      flash[:success] = 'Chat room created'
+      redirect_to chat_path
+    else
+      render 'new'
     end
   end
+  # POST /chats.json
+
 
   # PATCH/PUT /chats/1
   # PATCH/PUT /chats/1.json
