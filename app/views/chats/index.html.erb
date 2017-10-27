@@ -1,9 +1,28 @@
-<h1>All Chats</h1>
+<p id="notice"><%= notice %></p>
 
-<p><%= link_to 'Create a new chat', new_chat_path %></p>
+<h1>Chat Rooms</h1>
 
-<ul>
-  <%= render @chats %>
-</ul>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
 
+  <tbody>
+    <% @chats.each do |chat| %>
+      <tr>
+        <td><%= chat.name %></td>
+        <td><%= link_to 'Show', chat %></td>
+        <td><%= link_to 'Edit', edit_chat_path(chat) %></td>
+       <td><%= link_to "Join", chat_groups_path(chat), method: :post %></td>
+        <td><%= link_to "Leave", chat_groups_path(chat), method: :delete %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
+<br>
+
+<%= link_to 'New Chat Room', new_chat_path %>

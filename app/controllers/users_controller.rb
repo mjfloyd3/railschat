@@ -32,11 +32,11 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    @user = User.new(params[:user])
+    @user = User.new(user_params)
 
       if @user.save
         session[:user_id] = @user.id
-        redirect_to @user, notice: 'Profile successfully created'
+        redirect_to root_url, notice: 'Profile successfully created'
       else
         render action: "new"
       end

@@ -7,5 +7,6 @@ class CreateMessages < ActiveRecord::Migration[5.1]
 
       t.timestamps
     end
+    add_index :messages, [:user_id, :created_at]
   end
 end

@@ -1,46 +1,49 @@
 class ChatsController < ApplicationController
   before_action :set_chat, only: [:show, :edit, :update, :destroy]
 
-  # GET /chats
-  # GET /chats.json
+  # GET /chatrooms
+  # GET /chatrooms.json
   def index
     @chats = Chat.all
   end
 
-  # GET /chats/1
-  # GET /chats/1.json
+  # GET /chatrooms/1
+  # GET /chatrooms/1.json
   def show
-    @chat=Chat.includes(:messages).find_by(id: params[:id])
+    @messages = @chat.messages.order(created_at: :desc).limit(100).reverse
   end
 
-  # GET /chats/new
+  # GET /chatrooms/new
   def new
     @chat = Chat.new
   end
 
-  # GET /chats/1/edit
+  # GET /chatrooms/1/edit
   def edit
   end
 
-  # POST /chats
+  # POST /chatrooms
+  # POST /chatrooms.json
   def create
-    @chat_room = current_user.chats.build(chat_params)
-    if @chat.save
-      flash[:success] = 'Chat room created'
-      redirect_to chat_path
-    else
-      render 'new'
+    @chat = Chat.new(chat_params)
+
+    respond_to do |format|
+      if @chat.save
+        format.html { redirect_to @chat, notice: 'Chat room was successfully created.' }
+        format.json { render :show, status: :created, location: @chat }
+      else
+        format.html { render :new }
+        format.json { render json: @chat.errors, status: :unprocessable_entity }
+      end
     end
   end
-  # POST /chats.json
 
-
-  # PATCH/PUT /chats/1
-  # PATCH/PUT /chats/1.json
+  # PATCH/PUT /chatrooms/1
+  # PATCH/PUT /chatrooms/1.json
   def update
     respond_to do |format|
-      if @chat.update(chat_params)
-        format.html { redirect_to @chat, notice: 'Chat was successfully updated.' }
+      if @chat.update(chatroom_params)
+        format.html { redirect_to @chat, notice: 'Chat room was successfully updated.' }
         format.json { render :show, status: :ok, location: @chat }
       else
         format.html { render :edit }
@@ -49,12 +52,12 @@ class ChatsController < ApplicationController
     end
   end
 
-  # DELETE /chats/1
-  # DELETE /chats/1.json
+  # DELETE /chatrooms/1
+  # DELETE /chatrooms/1.json
   def destroy
     @chat.destroy
     respond_to do |format|
-      format.html { redirect_to chats_url, notice: 'Chat was successfully destroyed.' }
+      format.html { redirect_to chats_url, notice: 'Chat room was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -67,6 +70,6 @@ class ChatsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def chat_params
-      params.require(:chat).permit(:name, :password, :image)
+      params.require(:chat).permit(:name)
     end
 end

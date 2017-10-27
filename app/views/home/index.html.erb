@@ -1,24 +1,2 @@
-<h1>Rails Chat</h1>
-
-<div>
-	<h2>Users</h2>
-	<ul>
-		<% @users.each do |user| %>
-			<li><%= user.email %></li>
-			<% end %>
-	</ul>
-</div>
-
-<%= link_to 'All Users', :users %>
-
-<div>
-	<h2>Chats</h2>
-	<ul>
-		<% @chats.each do |chat| %>
-			<%= render 'chats/chat', chat: chat, user: current_user %>
-			<% end %>
-	</ul>
-</div>
 
 
-<%= link_to 'All Chats', :chats %>

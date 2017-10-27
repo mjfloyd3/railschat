@@ -1,10 +1,22 @@
-<h1>Create a new chat room</h1>
+<%= form_with(model: chat, local: true) do |form| %>
+  <% if chat.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(chat.errors.count, "error") %> prohibited this chatroom from being saved:</h2>
 
-<%= form_for @chat do |f| %>
-  <div class="form-group">
-    <%= f.label :name %>
-    <%= f.text_field :name, autofocus: true %>
+      <ul>
+      <% chat.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :chatroom_name %>
   </div>
 
-  <%= f.submit "Add!" %>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
 <% end %>

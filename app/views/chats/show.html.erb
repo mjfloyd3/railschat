@@ -1,10 +1,16 @@
-<div>
-	<ul>
-		<% messages.each do |message| %>
-		  <%= render message, user: user %>
-		<% end %>
-	</ul>
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @chat.name %>
+</p>
+
+<div data-behavior='messages'>
+	<% @messages.each do |message| %>
+	<p><span><%= message.user.username %> says <%= message.body %></span></p>
+	<% end %>
 </div>
 
-<%= link_to 'Edit', edit_chat_path(@chat) %> |
-<%= link_to 'Back', chats_path %>
+<%= form_for [@chat, Message.new] do |f| %>
+  <%= f.text_area :body, rows: 1, class: "form-control", autofocus: true %>
+<% end %>

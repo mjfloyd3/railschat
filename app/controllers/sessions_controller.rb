@@ -9,7 +9,7 @@ def create
       session[:user_id] = user.id
       redirect_to root_path, :notice => "You are logged in"
     else
-      redirect_to :login, :alert => "Invalid email or password"
+      redirect_to :log_in, :alert => "Invalid email or password"
     end
 end
 

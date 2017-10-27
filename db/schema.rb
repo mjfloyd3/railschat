@@ -14,7 +14,6 @@ ActiveRecord::Schema.define(version: 20171026001748) do
 
   create_table "chats", force: :cascade do |t|
     t.string "name"
-    t.string "image"
     t.datetime "created_at", null: false
     t.integer "group_id"
     t.integer "user_id"
@@ -25,8 +24,10 @@ ActiveRecord::Schema.define(version: 20171026001748) do
 
   create_table "groups", force: :cascade do |t|
     t.integer "user_id"
+    t.integer "chat_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["chat_id"], name: "index_groups_on_chat_id"
     t.index ["user_id"], name: "index_groups_on_user_id"
   end
 
@@ -37,6 +38,7 @@ ActiveRecord::Schema.define(version: 20171026001748) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["chat_id"], name: "index_messages_on_chat_id"
+    t.index ["user_id", "created_at"], name: "index_messages_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
